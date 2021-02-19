@@ -1,4 +1,5 @@
 package mybank;
+
 import java.sql.SQLException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,15 +8,18 @@ import java.text.SimpleDateFormat;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.util.Scanner;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.InputMismatchException;
+import java.util.List;
 
 class Bank{
     int minimumBalance=1000;
     double zero=0.0;
     void start() throws SQLException, ClassNotFoundException, InterruptedException{
-        welcome();
-        Scanner scanner = new Scanner(System.in);
+	  	//clearConsole();
+      	welcome();
+      	Scanner scanner = new Scanner(System.in);
             try{
                 while(true){
                     System.out.println("");
@@ -157,8 +161,9 @@ class Bank{
                                 	}
                                 
                                 UserAccount newUserAccount = new UserAccount(name, age, email, address, dob, mobileNumber);
+								System.out.println("\nINITIATING ACCOUNT CREATION\n");
                                 int newAccountNumber = newUserAccount.createAccount();
-                                System.out.println("Account created with account number "+newAccountNumber+"\n");
+                                System.out.println("\nCONGRATULATIONS, NEW ACCOUNT CREATED WITH ACCOUNT# "+newAccountNumber+"\n");
                                 System.out.println("");
                             	break;
                         case 2:
@@ -169,7 +174,7 @@ class Bank{
                                 	System.out.println("");
                             		break;
                                 }else{
-									System.out.println("Invalid Account Number - "+accountNumber+" !!");
+									System.out.println("INVALID ACCOUNT NUMBER - "+accountNumber+" !!");
 									break;
                                 }
                         case 3:
@@ -181,14 +186,14 @@ class Bank{
 									boolean depositSuccess = deposit(depositAmount, accountNumber, description);
 						                        if(depositSuccess){
 									    double newBalance = getAccountBalance(accountNumber);
-						                            System.out.println("Deposited INR "+depositAmount+" in account "+accountNumber+". Updated balance is INR "+newBalance);
+						                            System.out.println("DEPOSIT SUCCESS: INR "+depositAmount+" DEPOSITED IN ACCOUNT "+accountNumber+". UPDATED BALANCE IS INR "+newBalance);
 									}
 						                        else
-						                            System.out.println("Deposit Unsuccessful");
+						                            System.out.println("DEPOSIT UNSUCCESSFUL");
 						                        System.out.println("");
 						                    	break;
 								}else{
-									System.out.println("Invalid Account Number - "+accountNumber+" !!");
+									System.out.println("INVALID ACCOUNT# - "+accountNumber+" !!");
 									break;
 								}
                         case 4:
@@ -199,14 +204,14 @@ class Bank{
 			                       	boolean withdrawSuccess = withdraw(withdrawAmount, accountNumber, description);
 			                        if(withdrawSuccess){
 			                        	double newBalance = getAccountBalance(accountNumber);
-			                            System.out.println("Withdraw Successful INR "+withdrawAmount+" in account "+accountNumber+". Updated Balance is INR "+newBalance);
+			                            System.out.println("WITHDRAWAL SUCCESS: INR "+withdrawAmount+" WITHDRAWN FROM ACCOUNT "+accountNumber+". UPDATED BALANCE IS INR "+newBalance);
 			                        }
 			                        else
-			                            System.out.println("Withdraw Unsuccessful");
+			                            System.out.println("WITHDRAWAL ERROR");
 			                        System.out.println("");
 			                        break;
 								}else{
-									System.out.println("Invalid Account Number - "+accountNumber+" !!");
+									System.out.println("INVALID ACCOUNT# - "+accountNumber+" !!");
 									break;
 								}
                         case 5:
@@ -218,30 +223,33 @@ class Bank{
                                 	break;
                                 }
                                 else{
-                                	System.out.println("Invalid Account Number - "+accountNumber+" !!");
+                                	System.out.println("INVALID ACCOUNT# - "+accountNumber+" !!");
                                 	break;
                                 }
-			case 6:
-				System.out.print("Account #: "); accountNumber = scanner.nextInt();
-				if(isAccountPresent(accountNumber)){
-					System.out.println("");
-					printAccountInfo(accountNumber);
-					System.out.println("");
-					break;
-				}else{
-					System.out.println("Invalid Account Number - "+accountNumber+" !!");
-					break;
-				}
-			case 7:
-				System.out.println("All Account Info");
-				break;
-                        case 8: System.exit(0);
-                        default: System.out.println("Invalid Choice. Try again!");
-                        System.out.print("");
-                            break;
-                    }
-		    //Thread.sleep(10000);
-		    //clearConsole();
+						case 6:
+							System.out.print("Account #: "); accountNumber = scanner.nextInt();
+							if(isAccountPresent(accountNumber)){
+								System.out.println("");
+								printAccountInfo(accountNumber);
+								System.out.println("");
+								break;
+							}else{
+								System.out.println("INVALID ACCOUNT# - "+accountNumber+" !!");
+								break;
+							}
+						case 7:
+							System.out.println("\nPRINTING ALL ACCOUNT INFO");
+							printAllAccountInfo();
+							break;
+						case 8: 
+							System.exit(0);
+						default: 
+							System.out.println("INVALID CHOICE. TRY AGAIN!");
+							System.out.print("");
+							break;
+					}
+		    	//Thread.sleep(10000);
+		    	//clearConsole();
                 }
             }finally{
                 if(scanner!=null)
@@ -249,7 +257,7 @@ class Bank{
             }
     }
     void welcome(){
-        System.out.println("WELCOME TO LENA BANK");
+        System.out.println("WELCOME TO My BANK");
         System.out.println("---------------------");
     }
     void administrativePanel(){
@@ -396,7 +404,7 @@ class Bank{
 
     }
     public void clearConsole(){
-    	/*try{
+    	try{
 			String os = System.getProperty("os.name");
 			if(os.contains("Windows")){
 				Runtime.getRuntime().exec("cls");
@@ -406,8 +414,9 @@ class Bank{
 			}
 		}catch(Exception e){
 			System.out.println("EXCEPTION OCCURRED "+e);
-		}*/
-	    System.out.print("\033[H\033[2J");
+		}
+	    /*System.out.print("\033[H\033[2J");
+		System.out.flush();*/
     }
 
 	public boolean nameValid(String nameString){
@@ -486,9 +495,36 @@ class Bank{
 			//System.out.format("%20d%20s%20d%20s%20s%20f",accountNumber,name,age,email,mobileNumber,balance);
 			
 		}
-		String accountHeader = "Account#", nameHeader="Name", ageHeader="Age", emailHeader="Email", mobileHeader="Mobile#", balanceHeader="Balance";
-		System.out.format("%5s%5s%5s%5s%5s%5s",accountHeader,nameHeader,ageHeader,emailHeader,mobileHeader,balanceHeader);
-		System.out.format("%20d%20s%20d%20s%20s%20f",accountNumber,name,age,email,mobileNumber,balance);
+		//String accountHeader = "Account#", nameHeader="Name", ageHeader="Age", emailHeader="Email", mobileHeader="Mobile#", balanceHeader="Balance";
+		//System.out.format("%5s%5s%5s%5s%5s%5s",accountHeader,nameHeader,ageHeader,emailHeader,mobileHeader,balanceHeader);
+		//System.out.format("%20d%20s%20d%20s%20s%20f",accountNumber,name,age,email,mobileNumber,balance);
+		System.out.println("Account#: "+accountNumber);
+		System.out.println("Customer ID: "+customerId);
+		System.out.println("Name: "+name);
+		System.out.println("Age: "+age);
+		System.out.println("Email: "+email);
+		System.out.println("Mobile#: "+mobileNumber);
+		System.out.println("Balance: "+balance);
 		connection.close();
+	}
+
+	public void printAllAccountInfo() throws SQLException, ClassNotFoundException{
+		DBConnection dbConnect = new DBConnection();
+		Connection connection = dbConnect.dbConnect();
+		String sqlAllAccountNumbers = "SELECT accountnumber FROM AllUserAccounts";
+		PreparedStatement psAllAccountNumbers = connection.prepareStatement(sqlAllAccountNumbers);
+		ResultSet rsAllAccountNumbers = psAllAccountNumbers.executeQuery();
+		List<Integer> arrAllAccountNumbers = new ArrayList<Integer>();
+		while(rsAllAccountNumbers.next()){
+			arrAllAccountNumbers.add(rsAllAccountNumbers.getInt(1));
+		}
+		connection.close();
+		System.out.println("\nTotal Number of Accounts: "+arrAllAccountNumbers.size()+"\n");
+		for (Integer accountNumber : arrAllAccountNumbers) {
+			System.out.println("--------------------------\n");
+			printAccountInfo(accountNumber);
+			System.out.println();
+			System.out.println("--------------------------\n");
+		}
 	}
 }

@@ -7,7 +7,7 @@ class DBConnection{
     public Connection dbConnect() throws SQLException, ClassNotFoundException{
         String url = "jdbc:sqlite:mybankdb.db";
         Class.forName("org.sqlite.JDBC");
-        Connection connection = DriverManager.getConnection(url, "postgres", "postgres");
+        Connection connection = DriverManager.getConnection(url);
         return connection;
     }
     public void closeConnection(Connection con) throws SQLException{

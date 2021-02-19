@@ -64,10 +64,12 @@ class UserAccount{
         Date date = new Date();
         String dormant = "ACTIVE";
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHMMSS");
+        SimpleDateFormat accountCreationDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:MM:SS");
         String customerId = formatter.format(date)+getMobileNumber();
+        String accountCreationDate = formatter.format(date);
         DBConnection dbConnect = new DBConnection();
         Connection connection = dbConnect.dbConnect();
-        String sqlCreateAccount = "INSERT INTO AllUserAccounts(name,address,age,dob,email,customerid,mobilenumber,dormant,balance) VALUES(?,?,?,?,?,?,?,?,?)";
+        String sqlCreateAccount = "INSERT INTO AllUserAccounts(name,address,age,dob,email,customerid,mobilenumber,dormant,balance,accountCreationDate) VALUES(?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement psCreateAccount = connection.prepareStatement(sqlCreateAccount);
         psCreateAccount.setString(1,getName());
         psCreateAccount.setString(2,getAddress());
@@ -78,6 +80,7 @@ class UserAccount{
         psCreateAccount.setString(7,getMobileNumber());
         psCreateAccount.setString(8, dormant);
         psCreateAccount.setDouble(9, zero);
+        psCreateAccount.setString(10, accountCreationDate);
 	
         int accountCreatedSuccess = psCreateAccount.executeUpdate();
         if(accountCreatedSuccess>0){
