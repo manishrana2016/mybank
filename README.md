@@ -7,6 +7,8 @@ This is a Java based Bank administration software with following functionalities
 5. Show Balance
 6. Account Information
 
+Tested successfully on JDK 11.
+
 ## Install
 ```
 $ git clone https://github.com/manishrana2016/mybank.git
