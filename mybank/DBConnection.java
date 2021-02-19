@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 class DBConnection{
     public Connection dbConnect() throws SQLException, ClassNotFoundException{
-        String url = "jdbc:sqlite:lenabankdb.db";
+        String url = "jdbc:sqlite:mybankdb.db";
         Class.forName("org.sqlite.JDBC");
         Connection connection = DriverManager.getConnection(url, "postgres", "postgres");
         return connection;
