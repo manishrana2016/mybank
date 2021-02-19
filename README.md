@@ -7,7 +7,7 @@ This is a Java based Bank administration software with following functionalities
 5. Show Balance
 6. Account Information
 
-Tested successfully on JDK 11.
+Tested successfully on Oracle JDK 11.
 
 ## Install
 ```
